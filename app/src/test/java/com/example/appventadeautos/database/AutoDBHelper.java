@@ -1,6 +1,6 @@
 package com.example.appventadeautos.database;
-// AutoDBHelper.java
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -24,6 +24,28 @@ public class AutoDBHelper extends SQLiteOpenHelper {
                 "anio INTEGER, " +
                 "precio REAL);";
         db.execSQL(createTable);
+
+        // Insertar datos por defecto
+        insertDefaultAutos(db);
+    }
+
+    private void insertDefaultAutos(SQLiteDatabase db) {
+        // Insertar 5 autos por defecto
+        insertAuto(db, "Toyota", "Corolla", 2020, 20000.0);
+        insertAuto(db, "Honda", "Civic", 2019, 18000.0);
+        insertAuto(db, "Ford", "Fusion", 2021, 22000.0);
+        insertAuto(db, "Chevrolet", "Malibu", 2018, 19000.0);
+        insertAuto(db, "Nissan", "Altima", 2022, 24000.0);
+    }
+
+    private long insertAuto(SQLiteDatabase db, String marca, String nombre, int anio, double precio) {
+        ContentValues values = new ContentValues();
+        values.put("marca", marca);
+        values.put("nombre", nombre);
+        values.put("anio", anio);
+        values.put("precio", precio);
+
+        return db.insert("autos", null, values);
     }
 
     @Override
